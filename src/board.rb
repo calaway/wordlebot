@@ -34,5 +34,12 @@ class Board
       find("div[aria-label='Keyboard'] button[data-key='#{letter}']").click
     end
     find("div[aria-label='Keyboard'] button[data-key='↵']").click
+
+    get_results(row)
+  end
+
+  def get_results(row)
+    until find("div[aria-label='Row #{row}'] div[aria-label*='5th letter']")['data-state'] != 'tbd'; end
+    all("div[aria-label='Row #{row}'] div[data-testid='tile']").map{ |tile| tile['data-state']}
   end
 end
