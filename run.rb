@@ -1,10 +1,7 @@
-require 'pry'
-
 require_relative 'src/board'
 require_relative 'src/words'
 
 board = Board.new
-
 word_list = board.load
 
 game_result = 6.times do |index|
@@ -23,4 +20,4 @@ end
 
 puts game_result
 
-binding.pry
+# require 'pry'; binding.pry
