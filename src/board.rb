@@ -39,6 +39,7 @@ class Board
   end
 
   def submit_word(row, word)
+    word = 'dummy' if word.nil?
     letters = word.split('')
     while first_letter_empty?(row) do
       click_keyboard(letters.first)

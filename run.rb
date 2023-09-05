@@ -7,46 +7,20 @@ board = Board.new
 
 word_list = board.load
 
-guess = word_list.sample
-puts guess
-results = board.submit_word(1, guess)
-p results
-puts word_list.length
+game_result = 6.times do |index|
+  guess = word_list.sample
+  puts guess
+  word_result = board.submit_word(index + 1, guess)
+  p word_result
+  word_list = Words.filter(word_list, guess, word_result)
+  puts word_list.length
+  if word_result.all? { |result| result == 'correct' }
+    break guess
+  elsif index == 5
+    break word_list
+  end
+end
 
-word_list = Words.filter(word_list, guess, results)
-guess = word_list.sample
-puts guess
-results = board.submit_word(2, guess)
-p results
-puts word_list.length
-
-word_list = Words.filter(word_list, guess, results)
-guess = word_list.sample
-puts guess
-results = board.submit_word(3, guess)
-p results
-puts word_list.length
-
-word_list = Words.filter(word_list, guess, results)
-guess = word_list.sample
-puts guess
-results = board.submit_word(4, guess)
-p results
-puts word_list.length
-
-word_list = Words.filter(word_list, guess, results)
-guess = word_list.sample
-puts guess
-results = board.submit_word(5, guess)
-p results
-puts word_list.length
-
-word_list = Words.filter(word_list, guess, results)
-guess = word_list.sample
-puts guess
-results = board.submit_word(6, guess)
-p results
-puts word_list.length
-
+puts game_result
 
 binding.pry

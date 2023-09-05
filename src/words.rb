@@ -1,18 +1,18 @@
 module Words
-  def self.filter(word_list, guess, results)
+  def self.filter(word_list, guess, word_result)
     word_list.delete(guess)
-    results.each_with_index do |result, index|
-      if result == 'correct'
+    word_result.each_with_index do |letter_result, index|
+      if letter_result == 'correct'
         word_list = word_list.select do |word|
           word[index] == guess[index]
         end
       end
-      if result == 'present'
+      if letter_result == 'present'
         word_list = word_list.select do |word|
           word.include?(guess[index]) && word[index] != guess[index]
         end
       end
-      if result == 'absent'
+      if letter_result == 'absent'
         word_list = word_list.select do |word|
           !word.include?(guess[index])
         end
