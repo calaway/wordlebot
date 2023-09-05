@@ -1,20 +1,21 @@
 require_relative 'src/board'
 require_relative 'src/words'
 
+words = Words.new
+possible_words = words.possible_words
 board = Board.new
-word_list = board.load
 
 game_result = 6.times do |index|
-  guess = word_list.sample
+  guess = possible_words.sample
   puts guess
   word_result = board.submit_word(index + 1, guess)
   p word_result
-  word_list = Words.filter(word_list, guess, word_result)
-  puts word_list.length
+  possible_words = words.filter(possible_words, guess, word_result)
+  puts possible_words.length
   if word_result.all? { |result| result == 'correct' }
     break guess
   elsif index == 5
-    break word_list
+    break possible_words
   end
 end
 

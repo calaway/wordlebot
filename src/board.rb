@@ -29,13 +29,11 @@ class Board
   include Capybara::DSL
   include UiHelpers
 
-  def load
+  def initialize
     visit('https://www.nytimes.com/games/wordle/index.html')
-    word_list = File.readlines('./src/word-list-small.txt').map(&:chomp)
     click_button('Continue')
     click_button('Play')
     find('button[aria-label="Close"]').click
-    word_list
   end
 
   def submit_word(row, word)
