@@ -2,7 +2,17 @@ class Words
   attr_accessor :possible_words
 
   def initialize
-    @possible_words = File.readlines('./src/word-list-small.txt').map(&:chomp)
+    @possible_words = read_word_list_small
+  end
+
+  def read_word_list_small
+    File.readlines('./src/word-list-small.txt').map(&:chomp)
+  end
+
+  def read_word_list_big
+    word_list_small = File.readlines('./src/word-list-small.txt').map(&:chomp)
+    word_list_big = File.readlines('./src/word-list-big.txt').map(&:chomp)
+    (word_list_small + word_list_big).uniq
   end
 
   def filter(word_list, guess, word_result)
