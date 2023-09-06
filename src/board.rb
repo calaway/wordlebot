@@ -52,18 +52,10 @@ class Board
   end
 
   def self.pretty_print_result(word_result)
-    emojis = word_result.map do |result|
-      case result
-      when 'correct'
-        '🟢'
-      when 'present'
-        '🟡'
-      when 'absent'
-        '⚪️'
-      else
-        '❓'
-      end
+    emoji_translation = { 'correct' => '🟢', 'present' => '🟡', 'absent' => '⚪️'}
+    emoji_result = word_result.map do |letter_result|
+      emoji_translation[letter_result]
     end.join('')
-    puts emojis
+    puts emoji_result
   end
 end
