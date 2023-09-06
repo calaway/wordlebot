@@ -5,15 +5,15 @@ class DataStore
   attr_accessor :db
 
   def initialize
+    read_db
+  end
+
+  def read_db
     if File.exist?('data/db.json')
-      read
+      @db = JSON.parse(File.read('data/db.json'))
     else
       @db = {}
     end
-  end
-
-  def read
-    @db = JSON.parse(File.read('data/db.json'))
   end
 
   def save
