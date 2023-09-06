@@ -31,7 +31,8 @@ class Board
 
   def initialize
     visit('https://www.nytimes.com/games/wordle/index.html')
-    click_button('Continue')
+    set_local_storage_item('accepted_terms_service', 'true')
+    refresh
     click_button('Play')
     find('button[aria-label="Close"]').click
   end
