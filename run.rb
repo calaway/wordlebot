@@ -1,8 +1,11 @@
+require_relative 'src/data_store'
 require_relative 'src/words'
 require_relative 'src/board'
 
+data_store = DataStore.new
+pp data_store.db
 words = Words.new
-board = Board.new
+board = Board.new(data_store.db)
 
 game_result = 6.times do |index|
   guess = words.possible_words.sample
@@ -20,6 +23,9 @@ game_result = 6.times do |index|
   end
 end
 
-puts game_result
+puts "Score: #{game_result}"
+remote_data = board.get_local_storage_item('nyt-wordle-moogle/ANON')
+data_store.db['remote_data'] = JSON.parse(remote_data)
+data_store.save
 
 sleep 3

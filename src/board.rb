@@ -7,6 +7,25 @@ Capybara.register_driver :selenium do |app|
 end
 
 module UiHelpers
+  def set_local_storage_item(key, value)
+    execute_script("localStorage.setItem('#{key}', '#{value}');")
+  end
+
+  def get_local_storage_item(key)
+    evaluate_script("localStorage.getItem('#{key}');")
+  end
+
+  def setup_local_storage(db)
+    local_storage_inputs = { 'accepted_terms_service' => 'true' }
+    if db['remote_data']
+      local_storage_inputs['nyt-wordle-moogle/ANON'] = JSON.generate(db['remote_data'])
+    end
+    local_storage_inputs.each do |key, value|
+      set_local_storage_item(key, value)
+    end
+    refresh
+  end
+
   def first_letter_empty?(row)
     find("div[aria-label='Row #{row}'] div[aria-label*='1st letter']")['data-state'] == 'empty'
   end
@@ -29,10 +48,9 @@ class Board
   include Capybara::DSL
   include UiHelpers
 
-  def initialize
+  def initialize(db = {})
     visit('https://www.nytimes.com/games/wordle/index.html')
-    set_local_storage_item('accepted_terms_service', 'true')
-    refresh
+    setup_local_storage(db)
     click_button('Play')
     find('button[aria-label="Close"]').click
   end
