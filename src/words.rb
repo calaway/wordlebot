@@ -1,5 +1,5 @@
 class Words
-  attr_reader :possible_words
+  attr_accessor :possible_words
 
   def initialize
     @possible_words = File.readlines('./src/word-list-small.txt').map(&:chomp)
