@@ -49,4 +49,20 @@ class Board
 
     get_results(row)
   end
+
+  def self.pretty_print_result(word_result)
+    emojis = word_result.map do |result|
+      case result
+      when 'correct'
+        '🟢'
+      when 'present'
+        '🟡'
+      when 'absent'
+        '⚪️'
+      else
+        '❓'
+      end
+    end.join('')
+    puts emojis
+  end
 end
