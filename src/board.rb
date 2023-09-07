@@ -1,5 +1,7 @@
 require 'selenium-webdriver'
 require 'capybara/dsl'
+require 'fileutils'
+require 'time'
 
 Capybara.default_driver = :selenium
 Capybara.register_driver :selenium do |app|
@@ -15,7 +17,7 @@ module UiHelpers
     evaluate_script("localStorage.getItem('#{key}');")
   end
 
-  def setup_local_storage(db)
+  def initialize_local_storage(db)
     local_storage_inputs = { 'accepted_terms_service' => 'true' }
     if db['remote_data']
       local_storage_inputs['nyt-wordle-moogle/ANON'] = JSON.generate(db['remote_data'])
@@ -48,9 +50,9 @@ class Board
   include Capybara::DSL
   include UiHelpers
 
-  def initialize(db = {})
+  def load_wordle(db = {})
     visit('https://www.nytimes.com/games/wordle/index.html')
-    setup_local_storage(db)
+    initialize_local_storage(db)
     click_button('Play')
     find('button[aria-label="Close"]').click
   end
@@ -75,5 +77,10 @@ class Board
       emoji_translation[letter_result]
     end.join('')
     puts emoji_result
+  end
+
+  def self.save_screenshot(result)
+    FileUtils.mkdir_p('screenshots')
+    Capybara.save_screenshot("screenshots/#{result} - #{Time.now.to_s}.png")
   end
 end
